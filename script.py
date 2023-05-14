@@ -4,8 +4,8 @@ author: Karel Dvořák
 email: dvorak.karl@seznam.cz
 discord: Karel_D#8322
 """
-from modul import show_pole, hraci_pole, pozdraveni
-from modul import poradi_tahu, podminka_vitezstvi
+from modul import zobrazeni_pole, hraci_pole, pozdraveni
+from modul import poradi_tahu, podminka_vitezstvi, oddeleni
 
 #Program pozdraví uživatele
 #Vypíše v krátkosti pravidla hry
@@ -16,10 +16,14 @@ tah = 0
 
 #Zobrazí hrací plochu
 while hra_bezi:
-    show_pole(hraci_pole)
-    print(f'Hráč {poradi_tahu(tah + 1)} zadej číslo pole nebo "q" pro ukončení')
+    zobrazeni_pole(hraci_pole)
+    print(oddeleni)
+    print(f'Hráč {poradi_tahu(tah + 1)} zadej číslo pole')
+    print('q = quit'.rjust(29))
+
     #Vyzve prvního hráče, aby zvolil pozici pro umístění hracího kamene
     vyber = input('Výběr: ')
+    print(oddeleni)
     if vyber == 'q':
         hra_bezi = False
 
@@ -35,17 +39,26 @@ while hra_bezi:
 
     #Pokud hráč zadá jiné číslo, než je nabídka hracího pole, program jej upozorní.
     elif not str.isdigit(vyber):
-        print('Nezadal jsi číslo!!')
+        print('Nezadal jsi číslo!')
+        print('-' * 29)
 
     #Pokud hráč zadá jiné číslo, než je nabídka hracího pole, program jej upozorní.
     elif int(vyber) > 9 or int(vyber) <= 0:
-        print('Zadal jsi číslo mimo hrací pole!')
+        print('Číslo je mimo hrací pole!')
+        print('-' * 29)
+
     #Program vyhodnocuje, jestli horizontálně/vertikálně/diagonálně není některý hrací kámen tříkrát. Pokud ano, vyhrává hráč, kterému tyto tři kameny patří
     if podminka_vitezstvi(hraci_pole):
         hra_bezi = False
-        show_pole(hraci_pole)
-        print(f'!!! VYHRÁL HRÁČ {poradi_tahu(tah)} !!!')
-    else:
-        hra_bezi = True
+        zobrazeni_pole(hraci_pole)
+        print(oddeleni)
+        print(f'!!! VYHRÁL HRÁČ {poradi_tahu(tah)} !!!'.center(29))
 
-#Pokud nezbývá žádné volné hrací pole a žádný hráč nevyhrál, jde o remízu.
+    #Pokud nezbývá žádné volné hrací pole a žádný hráč nevyhrál, jde o remízu.
+    if tah > 8 and not podminka_vitezstvi(hraci_pole): 
+        hra_bezi = False
+        zobrazeni_pole(hraci_pole)
+        print(oddeleni)
+        print('!!! NIKDO NEVYHRÁL !!!'.center(29))
+    
+print('KONEC HRY'.center(29))
