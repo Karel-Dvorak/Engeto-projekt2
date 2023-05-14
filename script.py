@@ -5,7 +5,7 @@ email: dvorak.karl@seznam.cz
 discord: Karel_D#8322
 """
 from modul import show_pole, hraci_pole, pozdraveni
-from modul import poradi_tahu
+from modul import poradi_tahu, podminka_vitezstvi
 
 #Program pozdraví uživatele
 #Vypíše v krátkosti pravidla hry
@@ -40,8 +40,12 @@ while hra_bezi:
     #Pokud hráč zadá jiné číslo, než je nabídka hracího pole, program jej upozorní.
     elif int(vyber) > 9 or int(vyber) <= 0:
         print('Zadal jsi číslo mimo hrací pole!')
+    #Program vyhodnocuje, jestli horizontálně/vertikálně/diagonálně není některý hrací kámen tříkrát. Pokud ano, vyhrává hráč, kterému tyto tři kameny patří
+    if podminka_vitezstvi(hraci_pole):
+        hra_bezi = False
+        show_pole(hraci_pole)
+        print(f'!!! VYHRÁL HRÁČ {poradi_tahu(tah)} !!!')
+    else:
+        hra_bezi = True
 
-
-
-#Program vyhodnocuje, jestli horizontálně/vertikálně/diagonálně není některý hrací kámen tříkrát. Pokud ano, vyhrává hráč, kterému tyto tři kameny patří
 #Pokud nezbývá žádné volné hrací pole a žádný hráč nevyhrál, jde o remízu.
